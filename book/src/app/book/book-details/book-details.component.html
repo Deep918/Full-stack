@@ -1,0 +1,69 @@
+<h2 class="text-center"><b>List of Available Books with all the Details</b></h2>
+<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        
+    </div>
+    <div class='panel-body'>
+        <div class='row'>
+            <div class='col-md-2 text-center' style= "color: lightslategrey; font-size: 30px" ><em>Search By Author Name:</em></div>
+            <div class='col-md-4 text-center'>
+                <input placeholder="Author Name" type='text'[(ngModel)]='nameFilter' />
+            </div>
+        </div>
+        <div>
+            Title:
+            <input type="checkbox" [(ngModel)]="title" />
+            Author:
+            <input type="checkbox" [(ngModel)]="author" />
+            Publisher:
+            <input type="checkbox" [(ngModel)]="publisher" />
+            Publication Date:
+            <input type="checkbox" [(ngModel)]="publicationDate" />
+            ISBN:
+            <input type="checkbox" [(ngModel)]="isbn" />
+            Genre:
+            <input type="checkbox" [(ngModel)]="genre" />
+            Format:
+            <input type="checkbox" [(ngModel)]="format" />
+            Price:
+            <input type="checkbox" [(ngModel)]="price" />
+            </div>
+        <table class='table table-striped table-condensed' *ngIf='books && books.length'>
+            <thead>
+                <tr>
+                    <th style="min-width: 80px;"></th>
+                    <th *ngIf="title" style="min-width: 80px;">Title</th>
+                    <th *ngIf="author" style="min-width: 80px;">Author</th>
+                    <th *ngIf="publisher" style="min-width: 100px;">Publisher</th>
+                    <th *ngIf="publicationDate" style="min-width: 60px;">Publication Date</th>
+                  <th *ngIf="isbn" style="min-width: 60px;">ISBN</th>
+                    <th *ngIf="price" style="min-width: 60px;">Price</th>
+                    <th *ngIf="genre" style="min-width: 60px;">Genre</th>
+                    <th *ngIf="format" style="min-width: 60px;">Format</th>
+                    <th style="width:20px;"> </th>
+                    <th style="width:20px;"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let book of books | bookFilter: nameFilter'>
+                    <td *ngIf="title || author || publisher || publicationDate || isbn || price || genre || format"><input type="checkbox" (change)="checkBox(book.id)"></td>
+                    <td *ngIf="title"><a [routerLink]="book.id">{{ book.title | uppercase }}</a></td>
+                    <td *ngIf="author">{{ book.author }}</td>
+                    <td *ngIf="publisher">{{ book.publisher }}</td>
+                    <td *ngIf="publicationDate">{{ book.publicationDate | date}}</td>
+                   <td *ngIf="isbn">{{ book.isbn }}</td>
+                    <td *ngIf="price">{{ book.price }}</td>
+                    <td *ngIf="genre">{{ book.genre }}</td>
+                    <td *ngIf="format">{{ book.format }}</td>
+                    <td><a [routerLink]="['/editbook',book.id]" class="btn btn-xs btn-primary">Update</a></td>
+
+                    <td><a (click)="deleteBook(book.id)" class="btn btn-xs btn-danger">Delete</a></td>
+
+                </tr>
+            </tbody>
+        </table>
+      <a routerLink="/addbook" class="btn btn-xs btn-primary"> Add Book</a> 
+       <div style="float: left" *ngIf="title || author || publisher || publicationDate || isbn || price || genre || format"><a (click)="deleteMultiple()" class="btn btn-default btn-danger btn-xs">Multiple Delete</a></div> 
+
+    </div>
+</div>
